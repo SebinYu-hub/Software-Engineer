@@ -86,8 +86,13 @@ BASE=$(git merge-base @ @{u})
 if [ $LOCAL = $REMOTE ]; then
     echo -e "\n${GREEN}Local master is up to date${NC}"
 elif [ $LOCAL = $BASE ]; then
-    echo -e "\n${RED}Local master is behind remote. Please pull first.${NC}"
-    exit 1
+    echo -e "\n${YELLOW}Local master is behind remote. Pulling latest changes...${NC}"
+    git pull origin master
+    if [ $? -ne 0 ]; then
+        echo -e "\n${RED}❌ Pull failed. Please resolve conflicts manually.${NC}"
+        exit 1
+    fi
+    echo -e "\n${GREEN}✅ Successfully pulled latest changes${NC}"
 fi
 
 # Push to master
@@ -98,7 +103,9 @@ if [ $? -eq 0 ]; then
     echo -e "\n${GREEN}✅ Successfully pushed to master!${NC}"
 else
     echo -e "\n${RED}❌ Failed to push to master.${NC}"
-    echo -e "${YELLOW}Please pull latest changes and try again:${NC}"
-    echo -e "git pull origin master"
+    echo -e "${YELLOW}There might be conflicts. Please resolve them manually:${NC}"
+    echo -e "1. git pull origin master"
+    echo -e "2. Resolve any conflicts"
+    echo -e "3. Run this script again"
     exit 1
 fi 
