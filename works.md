@@ -1,5 +1,3 @@
-# 주니어 개발자 이력서
-
 ## 웨이팅 서비스 구축 프로젝트
 **기술 스택**: Kotlin, Spring Webflux, Redis, Docker, Swagger UI
 
